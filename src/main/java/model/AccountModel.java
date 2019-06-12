@@ -7,11 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class AccountModel {
-    public Account findByUsernameAndStatus(String username, Account.Status status) {
+    public Account findByUsernameAndStatus(String username, int status) {
         try {
             PreparedStatement stt = DbHelper.getConnection().prepareStatement("select * from `accounts` where `username` = ? and `status` = ?");
             stt.setString(1, username);
-            stt.setInt(2, status.getStatus());
+            stt.setInt(2, status);
             ResultSet rs = stt.executeQuery();
             if (rs.next()) {
                 return new Account(rs.getLong("id"),
@@ -26,7 +26,7 @@ public class AccountModel {
                         rs.getInt("gender"),
                         rs.getLong("createdAt"),
                         rs.getLong("updatedAt"),
-                        rs.getInt("stauts")
+                        rs.getInt("status")
                 );
             }
         } catch (SQLException e) {
@@ -53,6 +53,20 @@ public class AccountModel {
             stt.setLong(11, a.getCreatedAt());
             stt.setLong(12, a.getUpdatedAt());
             stt.setInt(13, Account.Status.findByType(a.getStauts()).getStatus());
+            stt.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean updateBalanceByAccountId(double balance, long accountId){
+        try {
+            PreparedStatement stt = DbHelper.getConnection()
+                    .prepareStatement("update`accounts` set `balance` = ? where `id` = ?");
+            stt.setDouble(1, balance);
+            stt.setDouble(2, accountId);
             stt.execute();
             return true;
         } catch (SQLException e) {

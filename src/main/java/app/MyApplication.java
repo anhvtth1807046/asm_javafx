@@ -1,5 +1,6 @@
 package app;
 
+import entity.Account;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 public class MyApplication extends Application {
     private static final int APP_WIDTH = 600;
     private static final int APP_HEIGHT = 800;
+    public static Account currentLogin = null;
     private MyApplication application;
     private Stage main_stage;
     private Scene main_scene;
@@ -32,7 +34,7 @@ public class MyApplication extends Application {
         this.application = this;
         this.main_stage = stage;
         this.rootPane = new AnchorPane();
-        this.rootPane.setPadding(new Insets(20));
+        this.rootPane.setPadding(new Insets(30));
         this.depositView = new DepositView(this.application);
         this.loginView = new LoginView(this.application);
         this.withDrawView = new WithDrawView(this.application);

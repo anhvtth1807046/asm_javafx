@@ -1,5 +1,6 @@
 package entity;
 
+import app.MyApplication;
 import model.AccountModel;
 
 import java.util.Calendar;
@@ -37,7 +38,7 @@ public class Account {
         this.gender = Gender.findByCode(gender).getGender();
         this.createdAt = now;
         this.updatedAt = now;
-        this.stauts = Status.INACTIVE.getStatus();
+        this.stauts = Status.ACTIVE.getStatus();
     }
 
     public Account(String username, String password, int stauts) {
@@ -107,6 +108,18 @@ public class Account {
         }
     }
 
+    public double deposit(double balance){
+        if (balance < 0) return 0;
+        double old_balance =  MyApplication.currentLogin.getBalance();
+        return model.updateBalanceByAccountId(old_balance + balance, this.id) ? old_balance + balance : 0;
+    }
+
+    public double withdraw(double balance){
+        if (balance < 0) return 0;
+        double old_balance =  MyApplication.currentLogin.getBalance();
+        return model.updateBalanceByAccountId(old_balance + balance, this.id) ? old_balance + balance : 0;
+    }
+
     public void setGender(Gender gender){
         if (gender == null) gender = Gender.Other;
         this.stauts = gender.getGender();
@@ -114,7 +127,11 @@ public class Account {
 
 
     public boolean checkLogin(){
-        Account a = model.findByUsernameAndStatus(this.username, Status.findByType(this.stauts));
+        Account a = model.findByUsernameAndStatus(this.username, Status.findByType(this.stauts).getStatus());
+        if (a == null) {
+            System.out.println("null r");
+            return false;
+        };
         return this.username.equals(a.getUsername()) && this.password.equals(a.getPassword());
     }
 

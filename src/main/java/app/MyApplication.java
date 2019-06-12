@@ -24,7 +24,7 @@ public class MyApplication extends Application {
     private WithDrawView withDrawView;
     private TransferView transferView;
 
-    private MenuView menuView;
+    public MenuView menuView;
     private RegisterView registerView;
     private LoginView loginView;
     private AnchorPane rootPane;
@@ -39,7 +39,7 @@ public class MyApplication extends Application {
         this.loginView = new LoginView(this.application);
         this.withDrawView = new WithDrawView(this.application);
         this.transferView = new TransferView(this.application);
-        this.menuView = new MenuView(this.application);
+
         this.registerView = new RegisterView(this.application);
 
         // Màn hình sẽ bắt đầu từ thằng login.

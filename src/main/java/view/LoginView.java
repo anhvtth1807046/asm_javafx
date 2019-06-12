@@ -63,6 +63,7 @@ public class LoginView {
             public void handle(ActionEvent event) {
                 Account account = new Account(textFieldAccount.getText(), passwordFieldPassword.getText(), Account.Status.ACTIVE.getStatus());
                 if(account.checkLogin()){
+                    application.menuView = new MenuView(application);
                     rootPane.getChildren().clear();
                     rootPane.getChildren().add(application.getMenuView().getvBoxChild());
                     return;

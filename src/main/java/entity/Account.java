@@ -63,6 +63,11 @@ public class Account {
         this.stauts = stauts;
     }
 
+    public Account(double balance, String fullName) {
+        this.balance = balance;
+        this.fullName = fullName;
+    }
+
     public enum Status{
         INACTIVE(0), ACTIVE(1), LOCKED(-1);
         int code;
@@ -132,6 +137,7 @@ public class Account {
             System.out.println("null r");
             return false;
         };
+        MyApplication.currentLogin = a;
         return this.username.equals(a.getUsername()) && this.password.equals(a.getPassword());
     }
 
@@ -241,5 +247,24 @@ public class Account {
 
     public void setStauts(int stauts) {
         this.stauts = stauts;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", accountNumber=" + accountNumber +
+                ", identityCard='" + identityCard + '\'' +
+                ", balance=" + balance +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", gender=" + gender +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", stauts=" + stauts +
+                '}';
     }
 }

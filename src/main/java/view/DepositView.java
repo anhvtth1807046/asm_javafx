@@ -28,7 +28,7 @@ public class DepositView {
     public void initComponent(){
         this.vBoxChild = new VBox();
         if (MyApplication.currentLogin != null){
-            this.lblBalance = new Label("Khách hàng: " + MyApplication.currentLogin.getFullName());
+            this.lblUsername = new Label("Khách hàng: " + MyApplication.currentLogin.getFullName());
             this.lblBalance = new Label( "Số dư: " + MyApplication.currentLogin.getBalance());
             this.txtAmount = new TextField();
 

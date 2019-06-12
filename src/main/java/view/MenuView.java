@@ -27,7 +27,7 @@ public class MenuView {
         this.btnDeposit = new Button("Gửi tiền");
         this.btnTransfer = new Button("Chuyển khoản");
         this.btnWithDraw = new Button("Rút tiền");
-
+//        System.out.println(MyApplication.currentLogin.toString());
         this.btnDeposit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -37,13 +37,10 @@ public class MenuView {
         });
 
         if (MyApplication.currentLogin != null){
+            System.out.println(MyApplication.currentLogin.toString());
             this.lblUser = new Label("Khách hàng: " + MyApplication.currentLogin.getFullName());
             this.lblBalance = new Label("Số dư: " + MyApplication.currentLogin.getBalance());
             vBoxChild.getChildren().addAll(lblUser, lblBalance);
-        }else{
-            rootPane.getChildren().clear();
-            rootPane.getChildren().add(application.getLoginView().getvBoxChild());
-            return;
         }
         this.vBoxChild.getChildren().addAll(btnDeposit, btnWithDraw, btnTransfer);
         this.vBoxChild.setAlignment(Pos.CENTER);

@@ -121,7 +121,6 @@ public class RegisterView {
                     Account a = new Account(txtAccount.getText(),pwdPassword.getText(),
                             txtIndentityCard.getText(), txtPhone.getText(), txtEmail.getText(), txtFullName.getText(), gender);
                     if(a.register()){
-                        MyApplication.currentLogin = a;
                         rootPane.getChildren().clear();
                         rootPane.getChildren().add(application.getMenuView().getvBoxChild());
                         return;

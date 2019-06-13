@@ -4,20 +4,25 @@ import app.MyApplication;
 import entity.Account;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class DepositView {
     private MyApplication application;
 
     private VBox vBoxChild;
-    private Label lblBalance, lblUsername, lblError, lblSuccess;
+    private Label lblBalance, lblUsername, lblError, lblSuccess, lblContent, lblAmount;
     private TextField txtAmount;
+    private TextArea txtContent;
     private Button btnSubmit, btnBack;
     private AnchorPane rootPane;
+    private HBox hBoxAmount, hBoxContent;
 
     public DepositView(MyApplication application) {
         this.application = application;
@@ -27,43 +32,51 @@ public class DepositView {
 
     public void initComponent(){
         this.vBoxChild = new VBox();
-        if (MyApplication.currentLogin != null){
-            this.lblUsername = new Label("Khách hàng: " + MyApplication.currentLogin.getFullName());
-            this.lblBalance = new Label( "Số dư: " + MyApplication.currentLogin.getBalance());
-            this.txtAmount = new TextField();
+        this.hBoxAmount = new HBox();
+        this.hBoxContent = new HBox();
+        this.lblUsername = new Label("Khách hàng: " + MyApplication.currentLogin.getFullName());
+        this.lblBalance = new Label( "Số dư: " + MyApplication.currentLogin.getBalance());
+        this.lblAmount = new Label("So dinh ban gui: ");
+        this.lblContent = new Label("Noi dung");
+        this.txtAmount = new TextField();
+        this.txtContent = new TextArea();
 
-            this.btnSubmit = new Button("Rút tiền");
-            this.btnBack = new Button("Quay lại");
-            this.btnSubmit.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    Account a = MyApplication.currentLogin;
-                    if(a.deposit(Double.parseDouble(txtAmount.getText())) > MyApplication.currentLogin.getBalance()){
-                        lblSuccess = new Label("Gửi tiền thành công!");
-                        vBoxChild.getChildren().add(lblSuccess);
-                        try {
-                            Thread.sleep(3000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        rootPane.getChildren().clear();
-                        rootPane.getChildren().add(application.getMenuView().getvBoxChild());
-                        return;
+        this.hBoxAmount.getChildren().addAll(lblAmount, txtAmount);
+        this.hBoxContent.getChildren().addAll(lblContent, txtContent);
+
+        this.btnSubmit = new Button("Gui tiền");
+        this.btnBack = new Button("Quay lại");
+        this.btnSubmit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Account a = MyApplication.currentLogin;
+                if(a.deposit(Double.parseDouble(txtAmount.getText())) > MyApplication.currentLogin.getBalance()){
+                    lblSuccess = new Label("Gửi tiền thành công!");
+                    vBoxChild.getChildren().add(lblSuccess);
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-                    lblError = new Label("Co loi xay ra vui long thu lai!");
-                    vBoxChild.getChildren().add(lblError);
-                }
-            });
-
-            this.btnBack.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
                     rootPane.getChildren().clear();
                     rootPane.getChildren().add(application.getMenuView().getvBoxChild());
+                    return;
                 }
-            });
-            vBoxChild.getChildren().addAll(this.lblUsername, this.lblBalance, this.btnSubmit, this.btnBack);
-        }
+                lblError = new Label("Co loi xay ra vui long thu lai!");
+                vBoxChild.getChildren().add(lblError);
+            }
+        });
+
+        this.btnBack.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                rootPane.getChildren().clear();
+                rootPane.getChildren().add(application.getMenuView().getvBoxChild());
+            }
+        });
+        vBoxChild.getChildren().addAll(this.lblUsername, this.lblBalance, this.hBoxAmount, this.hBoxContent, this.btnSubmit, this.btnBack);
+        vBoxChild.setAlignment(Pos.CENTER);
+        vBoxChild.setSpacing(10);
     }
 
     public MyApplication getApplication() {
@@ -144,5 +157,46 @@ public class DepositView {
 
     public void setRootPane(AnchorPane rootPane) {
         this.rootPane = rootPane;
+    }
+
+
+    public Label getLblContent() {
+        return lblContent;
+    }
+
+    public void setLblContent(Label lblContent) {
+        this.lblContent = lblContent;
+    }
+
+    public Label getLblAmount() {
+        return lblAmount;
+    }
+
+    public void setLblAmount(Label lblAmount) {
+        this.lblAmount = lblAmount;
+    }
+
+    public HBox gethBoxAmount() {
+        return hBoxAmount;
+    }
+
+    public void sethBoxAmount(HBox hBoxAmount) {
+        this.hBoxAmount = hBoxAmount;
+    }
+
+    public HBox gethBoxContent() {
+        return hBoxContent;
+    }
+
+    public void sethBoxContent(HBox hBoxContent) {
+        this.hBoxContent = hBoxContent;
+    }
+
+    public TextArea getTxtContent() {
+        return txtContent;
+    }
+
+    public void setTxtContent(TextArea txtContent) {
+        this.txtContent = txtContent;
     }
 }

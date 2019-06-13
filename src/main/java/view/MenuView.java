@@ -31,6 +31,7 @@ public class MenuView {
         this.btnDeposit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                application.depositView = new DepositView(application);
                 rootPane.getChildren().clear();
                 rootPane.getChildren().add(application.getDepositView().getvBoxChild());
             }

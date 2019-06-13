@@ -2,11 +2,14 @@ package entity;
 
 import app.MyApplication;
 import model.AccountModel;
+import model.TransactionModel;
+import entity.Transaction;
 
 import java.util.Calendar;
 
 public class Account {
-    private static final AccountModel model = new AccountModel();
+    private static final AccountModel ACCOUNT_MODEL = new AccountModel();
+    private static final TransactionModel TRANSACTION_MODEL = new TransactionModel();
     private long id;
     private String username;
     private String password;
@@ -113,16 +116,21 @@ public class Account {
         }
     }
 
-    public double deposit(double balance){
+    public double deposit(double balance,String content){
         if (balance < 0) return 0;
         double old_balance =  MyApplication.currentLogin.getBalance();
-        return model.updateBalanceByAccountId(old_balance + balance, this.id) ? old_balance + balance : 0;
+        Transaction transaction = new Transaction(Transaction.TransactionType.DEPOSIT.getType(), balance, content, MyApplication.currentLogin.getAccountNumber(), MyApplication.currentLogin.getAccountNumber());
+        if(!transaction.insert()){
+            return 0;
+        };
+        System.out.println("Luu transaction thanh cong!");
+        return ACCOUNT_MODEL.updateBalanceByAccountId(old_balance + balance, this.id) ? old_balance + balance : 0;
     }
 
     public double withdraw(double balance){
         if (balance < 0) return 0;
         double old_balance =  MyApplication.currentLogin.getBalance();
-        return model.updateBalanceByAccountId(old_balance + balance, this.id) ? old_balance + balance : 0;
+        return ACCOUNT_MODEL.updateBalanceByAccountId(old_balance + balance, this.id) ? old_balance + balance : 0;
     }
 
     public void setGender(Gender gender){
@@ -132,7 +140,7 @@ public class Account {
 
 
     public boolean checkLogin(){
-        Account a = model.findByUsernameAndStatus(this.username, Status.findByType(this.stauts).getStatus());
+        Account a = ACCOUNT_MODEL.findByUsernameAndStatus(this.username, Status.findByType(this.stauts).getStatus());
         if (a == null) {
             System.out.println("null r");
             return false;
@@ -142,7 +150,7 @@ public class Account {
     }
 
     public boolean register(){
-        return model.insertAccount(this);
+        return ACCOUNT_MODEL.insertAccount(this);
     }
 
     public long getId() {

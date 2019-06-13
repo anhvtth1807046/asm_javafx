@@ -1,6 +1,10 @@
 package entity;
 
-public class Transition {
+import model.TransactionModel;
+
+public class Transaction {
+    private static final TransactionModel TRANSACTION_MODEL = new TransactionModel();
+
     private long id;
     private int type; // TransactionType (kiểu giao dịch) : 1 Deposit(gửi tiền), 2 Withdraw(rút tiền), 3 Transfer(Chuyển khoản)
     private double amount; // Số tiền
@@ -11,10 +15,10 @@ public class Transition {
     private long updatedAt; // Ngày update transaction VD: khi chuyển trạng thái transaction;
     private int status; // Trạng thái:  1 PROCESSING(Chờ sử lý), 2 DONE(Hoàn thành), 0 REJECT(Từ chối),-1 DELETED(đã xóa)
 
-    public Transition() {
+    public Transaction() {
     }
 
-    public Transition(int type, double amount, String content, long senderAccountNumber, long receiverAccountNumber) {
+    public Transaction(int type, double amount, String content, long senderAccountNumber, long receiverAccountNumber) {
         long now = System.currentTimeMillis(); // Millisecond hiện tại;
         this.id = now;
         this.type = type;
@@ -72,6 +76,10 @@ public class Transition {
     public void setStatus(Status status){
         if (status == null) status = Status.DELETED;
         this.status = status.getStatus();
+    }
+
+    public boolean insert(){
+        return TRANSACTION_MODEL.insertTransaction(this);
     }
 
     public long getId() {

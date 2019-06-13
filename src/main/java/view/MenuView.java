@@ -37,6 +37,15 @@ public class MenuView {
             }
         });
 
+        this.btnWithDraw.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                application.withDrawView = new WithDrawView(application);
+                rootPane.getChildren().clear();
+                rootPane.getChildren().add(application.getWithDrawView().getvBoxChild());
+            }
+        });
+
         if (MyApplication.currentLogin != null){
             System.out.println(MyApplication.currentLogin.toString());
             this.lblUser = new Label("Khách hàng: " + MyApplication.currentLogin.getFullName());

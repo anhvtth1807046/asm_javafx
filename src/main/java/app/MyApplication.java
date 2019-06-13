@@ -21,7 +21,7 @@ public class MyApplication extends Application {
     private Stage main_stage;
     private Scene main_scene;
     public DepositView depositView;
-    private WithDrawView withDrawView;
+    public WithDrawView withDrawView;
     private TransferView transferView;
 
     public MenuView menuView;
@@ -36,7 +36,6 @@ public class MyApplication extends Application {
         this.rootPane = new AnchorPane();
         this.rootPane.setPadding(new Insets(30));
         this.loginView = new LoginView(this.application);
-        this.withDrawView = new WithDrawView(this.application);
         this.transferView = new TransferView(this.application);
 
         this.registerView = new RegisterView(this.application);

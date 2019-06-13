@@ -56,18 +56,7 @@ public class DepositView {
                 Account a = MyApplication.currentLogin;
                 double newBalance = a.deposit(Double.parseDouble(txtAmount.getText()), txtContent.getText());
                 if(newBalance > 0){
-                    lblSuccess.setFont(Font.font(20));
-                    lblSuccess.setTextFill(Color.GREEN);
-                    lblSuccess.setVisible(true);
-                    MyApplication.currentLogin.setBalance(newBalance);
-                    try {
-                        Thread.sleep(3000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    rootPane.getChildren().clear();
-                    rootPane.getChildren().add(application.getMenuView().getvBoxChild());
-                    return;
+                    WithDrawView.setcurrentLoginNewBalance(lblSuccess, rootPane, application);
                 }
                 lblError = new Label("Co loi xay ra vui long thu lai!");
                 lblError.setTextFill(Color.RED);
@@ -83,9 +72,7 @@ public class DepositView {
                 rootPane.getChildren().add(application.getMenuView().getvBoxChild());
             }
         });
-        vBoxChild.getChildren().addAll(this.lblUsername, this.lblBalance,this.lblSuccess, this.hBoxAmount, this.hBoxContent, this.btnSubmit, this.btnBack);
-        vBoxChild.setAlignment(Pos.CENTER);
-        vBoxChild.setSpacing(10);
+        WithDrawView.setPosVboxAndSpacing(vBoxChild, this.lblUsername, this.lblBalance, this.lblSuccess, this.hBoxAmount, this.hBoxContent, this.btnSubmit, this.btnBack);
     }
 
     public MyApplication getApplication() {

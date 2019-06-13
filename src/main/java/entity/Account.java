@@ -127,10 +127,26 @@ public class Account {
         return ACCOUNT_MODEL.updateBalanceByAccountId(old_balance + balance, this.id) ? old_balance + balance : 0;
     }
 
-    public double withdraw(double balance){
+    public double withdraw(double balance, String content){
         if (balance < 0) return 0;
         double old_balance =  MyApplication.currentLogin.getBalance();
-        return ACCOUNT_MODEL.updateBalanceByAccountId(old_balance + balance, this.id) ? old_balance + balance : 0;
+        double newBalance = old_balance - balance;
+        if (newBalance <= 50000){
+            return 0;
+        }
+
+        Transaction transaction = new Transaction(Transaction.TransactionType.WITHDRAW.getType(), balance, content, MyApplication.currentLogin.getAccountNumber(), MyApplication.currentLogin.getAccountNumber());
+        if(!transaction.insert()){
+            return 0;
+        };
+        System.out.println("Luu transaction thanh cong!");
+
+        if (ACCOUNT_MODEL.updateBalanceByAccountId(newBalance, this.id)){
+            MyApplication.currentLogin = ACCOUNT_MODEL.findByUsernameAndStatus(MyApplication.currentLogin.getUsername(), Status.ACTIVE.getStatus());
+            return newBalance;
+        }
+
+        return 0;
     }
 
     public void setGender(Gender gender){
